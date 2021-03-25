@@ -10,6 +10,10 @@ def index():
     users = User.select()
     return jsonify([{
         "id": user.id,
+        "name": user.name,
+        "email": user.email,
+        "contact_method": user.contact_method,
+        "contact_info": user.contact_info,
         "gender": user.gender,
         "year_of_birth": user.year_of_birth,
         "height": user.height,
