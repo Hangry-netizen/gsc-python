@@ -2,7 +2,7 @@ from models.base_model import BaseModel
 import peewee as pw
 
 
-class User(BaseModel):
+class Gsc(BaseModel):
     name = pw.CharField()
     email = pw.CharField(unique=True)
     contact_method = pw.CharField()
@@ -42,8 +42,8 @@ class User(BaseModel):
     ff_email = pw.CharField()
 
     def validate(self):
-        duplicate_email = User.get_or_none(User.email == self.email)
-        print("User validation in process")
+        duplicate_email = Gsc.get_or_none(Gsc.email == self.email)
+        print("GSC validation in process")
 
         if duplicate_email and self.id != duplicate_email.id:
             self.errors.append("There is an existing account with this email address")

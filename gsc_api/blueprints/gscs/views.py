@@ -1,57 +1,57 @@
 from flask import Blueprint, jsonify, request
-from models.user import *
+from models.gsc import *
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 
-users_api_blueprint = Blueprint('users_api',
+gscs_api_blueprint = Blueprint('gscs_api',
                              __name__)
 
-@users_api_blueprint.route('/', methods=['GET'])
+@gscs_api_blueprint.route('/', methods=['GET'])
 def index():
-    users = User.select()
+    gscs = Gsc.select()
     return jsonify([{
-        "id": user.id,
-        "name": user.name,
-        "email": user.email,
-        "contact_method": user.contact_method,
-        "contact_info": user.contact_info,
-        "gender": user.gender,
-        "year_of_birth": user.year_of_birth,
-        "height": user.height,
-        "languages": user.languages,
-        "nationality": user.nationality,
-        "city": user.city,
-        "country": user.country,
-        "descriptive_words": user.descriptive_words,
-        "mbti": user.mbti,
-        "enneagram":  user.enneagram,
-        "disc": user.disc,
-        "strengths_finder": user.strengths_finder,
-        "favorite_topics": user.favorite_topics,
-        "chill_activities": user.chill_activities,
-        "do": user.do,
-        "skills_and_talents":  user.skills_and_talents,
-        "favorite_cuisine": user.favorite_cuisine,
-        "growth_and_development": user.growth_and_development,
-        "spiritual_gifts": user.spiritual_gifts,
-        "duration_of_being_a_christian": user.duration_of_being_a_christian,
-        "church_background": user.church_background,
-        "reasons_sf_makes_a_good_partner": user.reasons_sf_makes_a_good_partner,
-        "good_match_for_sf": user.good_match_for_sf,
-        "moving_to_a_different_town": user.moving_to_a_different_town,
-        "moving_to_a_different_country": user.moving_to_a_different_country,
-        "has_been_married_or_has_kids": user.has_been_married_or_has_kids,
-        "desire_to_have_kids": user.desire_to_have_kids,
-        "important_info_to_know": user.important_info_to_know,
-        "first_referral_name": user.first_referral_name,
-        "first_referral_email": user.first_referral_email,
-        "second_referral_name": user.second_referral_name,
-        "second_referral_email": user.second_referral_email,
-        "ff_email": user.ff_email,
+        "id": gsc.id,
+        "name": gsc.name,
+        "email": gsc.email,
+        "contact_method": gsc.contact_method,
+        "contact_info": gsc.contact_info,
+        "gender": gsc.gender,
+        "year_of_birth": gsc.year_of_birth,
+        "height": gsc.height,
+        "languages": gsc.languages,
+        "nationality": gsc.nationality,
+        "city": gsc.city,
+        "country": gsc.country,
+        "descriptive_words": gsc.descriptive_words,
+        "mbti": gsc.mbti,
+        "enneagram":  gsc.enneagram,
+        "disc": gsc.disc,
+        "strengths_finder": gsc.strengths_finder,
+        "favorite_topics": gsc.favorite_topics,
+        "chill_activities": gsc.chill_activities,
+        "do": gsc.do,
+        "skills_and_talents":  gsc.skills_and_talents,
+        "favorite_cuisine": gsc.favorite_cuisine,
+        "growth_and_development": gsc.growth_and_development,
+        "spiritual_gifts": gsc.spiritual_gifts,
+        "duration_of_being_a_christian": gsc.duration_of_being_a_christian,
+        "church_background": gsc.church_background,
+        "reasons_sf_makes_a_good_partner": gsc.reasons_sf_makes_a_good_partner,
+        "good_match_for_sf": gsc.good_match_for_sf,
+        "moving_to_a_different_town": gsc.moving_to_a_different_town,
+        "moving_to_a_different_country": gsc.moving_to_a_different_country,
+        "has_been_married_or_has_kids": gsc.has_been_married_or_has_kids,
+        "desire_to_have_kids": gsc.desire_to_have_kids,
+        "important_info_to_know": gsc.important_info_to_know,
+        "first_referral_name": gsc.first_referral_name,
+        "first_referral_email": gsc.first_referral_email,
+        "second_referral_name": gsc.second_referral_name,
+        "second_referral_email": gsc.second_referral_email,
+        "ff_email": gsc.ff_email,
         }
-        for user in users
+        for gsc in gscs
     ])
 
-@users_api_blueprint.route('/', methods=['POST'])
+@gscs_api_blueprint.route('/', methods=['POST'])
 def create():
     data = request.json
 
@@ -94,7 +94,7 @@ def create():
     ff_email = data.get('ff_email')
 
     if name and email:
-        user = User(
+        gsc = Gsc(
             name = name,
             email = email,
             contact_method = contact_method,
@@ -133,21 +133,21 @@ def create():
             second_referral_email = second_referral_email,
             ff_email = ff_email
         )
-        if user.save():
-            token = create_access_token(identity=user.id)
+        if gsc.save():
+            token = create_access_token(identity=gsc.id)
             return jsonify({
                 "auth_token": token,
-                "message": "Successfully created a user and signed in",
+                "message": "Successfully added a new gsc",
                 "status": "success",
-                "user": {
-                    "id": user.id,
-                    "name": user.name,
-                    "email": user.email
+                "gsc": {
+                    "id": gsc.id,
+                    "name": gsc.name,
+                    "email": gsc.email
                 }
             })
-        elif user.errors != 0:
+        elif gsc.errors != 0:
             return jsonify({
-                "message": [error for error in user.errors],
+                "message": [error for error in gsc.errors],
                 "status": "failed"
             })
     else:
