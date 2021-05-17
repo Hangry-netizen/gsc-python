@@ -46,10 +46,6 @@ def index():
         "contact_info": gsc.contact_info,
         "notification_frequency": gsc.notification_frequency,
         "what_is_important_to_me": gsc.what_is_important_to_me,
-        "first_referral_name": gsc.first_referral_name,
-        "first_referral_email": gsc.first_referral_email,
-        "second_referral_name": gsc.second_referral_name,
-        "second_referral_email": gsc.second_referral_email,
         "is_approved": gsc.is_approved,
         "is_active": gsc.is_active,
         "last_signed_in": gsc.last_signed_in,
@@ -155,6 +151,7 @@ def show(uuid):
 
     return jsonify({
         "uuid": gsc.uuid,
+        "id": gsc.id,
         "name": gsc.name,
         "email": gsc.email,
         "gender": gsc.gender,
@@ -191,10 +188,6 @@ def show(uuid):
         "contact_info": gsc.contact_info,
         "notification_frequency": gsc.notification_frequency,
         "what_is_important_to_me": gsc.what_is_important_to_me,
-        "first_referral_name": gsc.first_referral_name,
-        "first_referral_email": gsc.first_referral_email,
-        "second_referral_name": gsc.second_referral_name,
-        "second_referral_email": gsc.second_referral_email,
         "is_approved": gsc.is_approved,
         "is_active": gsc.is_active,
         "last_signed_in": gsc.last_signed_in,
@@ -243,10 +236,6 @@ def update(uuid):
     contact_info = data.get('contact_info') 
     notification_frequency = data.get('notification_frequency')
     what_is_important_to_me = data.get('what_is_important_to_me') 
-    first_referral_name = data.get('first_referral_name')
-    first_referral_email = data.get('first_referral_email')
-    second_referral_name = data.get('second_referral_name')
-    second_referral_email = data.get('second_referral_email')
     is_approved = data.get('is_approved') 
     is_active = data.get('is_active') 
     last_signed_in = data.get('last_signed_in')
@@ -287,10 +276,6 @@ def update(uuid):
     contact_info != "" or 
     notification_frequency != "" or
     what_is_important_to_me != "" or 
-    first_referral_name != "" or
-    first_referral_email != "" or
-    second_referral_name != "" or
-    second_referral_email != "" or
     ff_email != "" or
     is_approved != "" or 
     is_active != "" or 
@@ -329,11 +314,7 @@ def update(uuid):
         update_gsc.preferred_contact_method = preferred_contact_method 
         update_gsc.contact_info = contact_info 
         update_gsc.notification_frequency = notification_frequency
-        update_gsc.what_is_important_to_me = what_is_important_to_me 
-        update_gsc.first_referral_name = first_referral_name
-        update_gsc.first_referral_email = first_referral_email
-        update_gsc.second_referral_name = second_referral_name
-        update_gsc.second_referral_email = second_referral_email
+        update_gsc.what_is_important_to_me = what_is_important_to_me
         update_gsc.ff_email = ff_email
         update_gsc.is_approved = is_approved 
         update_gsc.is_active = is_active 

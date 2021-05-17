@@ -17,7 +17,7 @@ class Gsc(BaseModel):
     mbti = pw.CharField(null=True)
     enneagram = pw.CharField(null=True)
     disc = pw.CharField(null=True)
-    strengths_finder = pw.CharField(null=True)
+    strengths_finder = pw.TextField(null=True)
     favorite_topics = pw.TextField(null=True)
     chill_activities = pw.TextField(null=True)
     do = pw.TextField()
@@ -28,8 +28,8 @@ class Gsc(BaseModel):
     church_background = pw.TextField()
     reasons_gscf_makes_a_good_partner = pw.TextField()
     good_match_for_gscf = pw.TextField()
-    moving_to_a_different_town = pw.CharField(null=True)
-    moving_to_a_different_country = pw.CharField(null=True)
+    moving_to_a_different_town = pw.IntegerField(null=True)
+    moving_to_a_different_country = pw.IntegerField(null=True)
     has_been_married_or_has_kids = pw.CharField()
     want_to_have_kids = pw.CharField()
     important_info_to_know = pw.TextField(null=True)
@@ -40,10 +40,6 @@ class Gsc(BaseModel):
     contact_info = pw.CharField(null=True)
     notification_frequency = pw.CharField(null=True)
     what_is_important_to_me = pw.TextField(null=True)
-    first_referral_name = pw.CharField(null=True)
-    first_referral_email = pw.CharField(null=True)
-    second_referral_name = pw.CharField(null=True)
-    second_referral_email = pw.CharField(null=True)
     ff_email = pw.CharField()
     is_approved = pw.BooleanField(default=False)
     is_active = pw.BooleanField(default=False)
@@ -51,9 +47,12 @@ class Gsc(BaseModel):
 
     def validate(self):
         duplicate_email = Gsc.get_or_none(Gsc.email == self.email)
+        has_uuid = Gsc.get_or_none(Gsc.uuid == self.uuid)
 
         if duplicate_email and self.id != duplicate_email.id:
             self.errors.append("There is an existing account with this email address")
-
+        
+        if has_uuid and self.id == has_uuid.id:
+            None
         else:
             self.uuid = uuid.uuid4()
