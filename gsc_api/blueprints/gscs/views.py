@@ -337,3 +337,48 @@ def update(uuid):
             "message": "At least on field must be filled",
             "status": "failed"
         })
+        
+@gscs_api_blueprint.route('/status/<uuid>', methods=['POST'])
+def update_status(uuid):
+    update_status = Gsc.get_or_none(Gsc.uuid == uuid)
+
+    data = request.json
+
+    is_approved = data.get('is_approved') 
+    is_active = data.get('is_active') 
+    last_signed_in = data.get('last_signed_in')
+
+    if (
+    is_approved != "" or 
+    is_active != "" or 
+    last_signed_in != ""):
+        update_status.is_approved = is_approved 
+        update_status.is_active = is_active 
+        update_status.last_signed_in = last_signed_in
+
+        if update_status.save(only=[
+            Gsc.is_approved, 
+            Gsc.is_active,
+            Gsc.last_signed_in
+            ]):
+            return jsonify({
+                "message": "Successfully updated GSCF status!",
+                "status": "success",
+                 "gsc": {
+                    "uuid": update_status.uuid,
+                    "name": update_status.name,
+                    "alias": update_status.alias
+                }
+            })
+
+        elif update_status.errors != 0:
+            return jsonify({
+                "message": [error for error in update_status.errors],
+                "status": "failed"
+            })
+    
+    else:
+        return jsonify({
+            "message": "At least on field must be filled",
+            "status": "failed"
+        })
